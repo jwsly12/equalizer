@@ -1,0 +1,323 @@
+- id: WIN-PRIV-001
+  name: "SeImpersonatePrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeImpersonatePrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the holder to impersonate a client after authentication. Exploitable via 'Potato' family attacks (Juicy, Print, GodPotato) to escalate to SYSTEM."
+
+- id: WIN-PRIV-002
+  name: "SeDebugPrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeDebugPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to debug any process, including those owned by SYSTEM. Can be used to inject code into LSASS to dump credentials."
+
+- id: WIN-PRIV-003
+  name: "SeBackupPrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeBackupPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Grants the ability to read any file on the system regardless of ACLs. Can be used to steal the SAM database or NTDS.dit."
+
+- id: WIN-PRIV-004
+  name: "SeRestorePrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeRestorePrivilege'
+  extensions: [".txt", ".log"]
+  description: "Grants the ability to write to any file on the system, bypassing ACLs. Used to replace service binaries or modify sensitive registry keys."
+
+- id: WIN-PRIV-005
+  name: "SeTakeOwnershipPrivilege"
+  severity: "HIGH"
+  pattern: 'SeTakeOwnershipPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to take ownership of objects. Once ownership is taken, the attacker can grant themselves Full Control over the object."
+
+- id: WIN-PRIV-006
+  name: "SeLoadDriverPrivilege"
+  severity: "HIGH"
+  pattern: 'SeLoadDriverPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows loading and unloading device drivers. Can be abused to install malicious drivers (rootkits) or disable security software (EDRs)."
+
+- id: WIN-PRIV-007
+  name: "SeTcbPrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeTcbPrivilege'
+  extensions: [".txt", ".log"]
+  description: "The user is part of the Trusted Computer Base. This is the highest level of privilege, allowing the user to act as part of the Operating System."
+
+- id: WIN-PRIV-008
+  name: "SeAssignPrimaryTokenPrivilege"
+  severity: "HIGH"
+  pattern: 'SeAssignPrimaryTokenPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows a process to replace the primary token of a child process. Used for lateral movement and process spoofing."
+
+- id: WIN-PRIV-009
+  name: "SeCreateTokenPrivilege"
+  severity: "CRITICAL"
+  pattern: 'SeCreateTokenPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the creation of arbitrary access tokens. A user with this privilege can create an administrative token from scratch."
+
+- id: WIN-PRIV-010
+  name: "SeManageVolumePrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeManageVolumePrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows performing maintenance tasks on volumes. Can be abused to read raw disk sectors or perform denial of service."
+
+- id: WIN-PRIV-011
+  name: "SeRelabelPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeRelabelPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to change the integrity label of objects, which can be used to bypass Windows Integrity level protections."
+
+- id: WIN-PRIV-012
+  name: "SeMachineAccountPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeMachineAccountPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to add computers to the domain. Can be abused in certain Active Directory delegation attacks."
+
+- id: WIN-PRIV-013
+  name: "SeCreateGlobalPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeCreateGlobalPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to create named objects in the Global namespace. Can be used in specific local service relay attacks to escalate privileges."
+
+- id: WIN-PRIV-014
+  name: "SeSecurityPrivilege"
+  severity: "HIGH"
+  pattern: 'SeSecurityPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to manage the Security log. Can be used to clear audit trails or read sensitive security events."
+
+- id: WIN-PRIV-015
+  name: "SeEnableDelegationPrivilege"
+  severity: "HIGH"
+  pattern: 'SeEnableDelegationPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to mark user and computer accounts as trusted for delegation in Active Directory. High risk for domain-wide compromise."
+
+- id: WIN-PRIV-016
+  name: "SeSyncAgentPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeSyncAgentPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Required for a directory service synchronization. Often related to AD replication and potentially sensitive data access."
+
+- id: WIN-PRIV-017
+  name: "SeTrustedCredManAccessPrivilege"
+  severity: "LOW"
+  pattern: 'SeTrustedCredManAccessPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to access Credential Manager as a trusted caller. Might be used to extract stored credentials."
+
+- id: WIN-PRIV-018
+  name: "SeSystemEnvironmentPrivilege"
+  severity: "HIGH"
+  pattern: 'SeSystemEnvironmentPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows modification of system environment variables. Can be used to interfere with secure boot or modify firmware/EFI variables."
+  
+- id: WIN-PRIV-019
+  name: "SeShutdownPrivilege"
+  severity: "LOW"
+  pattern: 'SeShutdownPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to shut down the system. Can be abused for denial of service attacks."
+
+- id: WIN-PRIV-020
+  name: "SeRemoteShutdownPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeRemoteShutdownPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to shut down a system remotely. Can be abused to disrupt services across the network."
+
+- id: WIN-PRIV-021
+  name: "SeUndockPrivilege"
+  severity: "LOW"
+  pattern: 'SeUndockPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to remove a computer from a docking station. Rarely exploited but can be disruptive."
+
+- id: WIN-PRIV-022
+  name: "SeIncreaseQuotaPrivilege"
+  severity: "HIGH"
+  pattern: 'SeIncreaseQuotaPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to adjust memory quotas for processes. Can be abused to manipulate resource allocation and potentially escalate privileges."
+
+- id: WIN-PRIV-023
+  name: "SeChangeNotifyPrivilege"
+  severity: "LOW"
+  pattern: 'SeChangeNotifyPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to receive notifications of file or directory changes. Often granted by default, but can be leveraged for monitoring sensitive activity."
+
+- id: WIN-PRIV-024
+  name: "SeTimeZonePrivilege"
+  severity: "LOW"
+  pattern: 'SeTimeZonePrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to change the system time zone. Limited abuse potential but can disrupt logging and auditing."
+
+- id: WIN-PRIV-025
+  name: "SeSystemtimePrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeSystemtimePrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to change the system time. Can be abused to manipulate logs, certificates, and scheduled tasks."
+
+- id: WIN-PRIV-026
+  name: "SeProfileSingleProcessPrivilege"
+  severity: "MEDIUM"
+  pattern: 'SeProfileSingleProcessPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to profile a single process. Can be abused to gather sensitive information from privileged processes."
+
+- id: WIN-PRIV-027
+  name: "SeProfileSystemPrivilege"
+  severity: "HIGH"
+  pattern: 'SeProfileSystemPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to profile the entire system. Can expose sensitive performance data and potentially aid in privilege escalation."
+
+- id: WIN-PRIV-028
+  name: "SeIncreaseBasePriorityPrivilege"
+  severity: "LOW"
+  pattern: 'SeIncreaseBasePriorityPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to increase the priority of a process. Can be abused for resource starvation attacks."
+
+- id: WIN-PRIV-029
+  name: "SeLockMemoryPrivilege"
+  severity: "HIGH"
+  pattern: 'SeLockMemoryPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows a process to keep data in physical memory, preventing it from being paged to disk. Can be abused to hide malicious code from forensic analysis."
+
+- id: WIN-PRIV-030
+  name: "SeAuditPrivilege"
+  severity: "HIGH"
+  pattern: 'SeAuditPrivilege'
+  extensions: [".txt", ".log"]
+  description: "Allows the user to generate security audits. Can be abused to flood logs or mask malicious activity."
+
+- id: WIN-PRIV-031
+  name: "SeDenyNetworkLogonRight"
+  severity: "MEDIUM"
+  pattern: 'SeDenyNetworkLogonRight'
+  extensions: [".txt", ".log"]
+  description: "Denies a user the ability to log on over the network. Misconfiguration can be abused to lock out legitimate accounts."
+
+- id: WIN-PRIV-032
+  name: "SeDenyInteractiveLogonRight"
+  severity: "MEDIUM"
+  pattern: 'SeDenyInteractiveLogonRight'
+  extensions: [".txt", ".log"]
+  description: "Denies a user the ability to log on interactively. Can be abused for denial of service or privilege restriction bypass."
+
+
+- id: WIN-FILE-001
+  name: "FILE_READ_DATA"
+  severity: "HIGH"
+  pattern: 'FILE_READ_DATA'
+  extensions: [".txt", ".log"]
+  description: "Allows reading data from a file or pipe. Dangerous in named pipes as it enables interception of sensitive information."
+
+- id: WIN-FILE-002
+  name: "FILE_WRITE_DATA"
+  severity: "CRITICAL"
+  pattern: 'FILE_WRITE_DATA'
+  extensions: [".txt", ".log"]
+  description: "Allows writing data to a file or pipe. In pipes, can be abused to inject malicious commands into privileged services."
+
+- id: WIN-FILE-003
+  name: "FILE_APPEND_DATA"
+  severity: "MEDIUM"
+  pattern: 'FILE_APPEND_DATA'
+  extensions: [".txt", ".log"]
+  description: "Allows appending data to the end of a file or stream. Can be used to manipulate logs or insert hidden payloads."
+
+- id: WIN-FILE-004
+  name: "FILE_EXECUTE"
+  severity: "CRITICAL"
+  pattern: 'FILE_EXECUTE'
+  extensions: [".txt", ".log"]
+  description: "Allows execution of a file. If granted broadly, attackers can run arbitrary binaries or scripts."
+
+- id: WIN-FILE-005
+  name: "FILE_READ_ATTRIBUTES"
+  severity: "LOW"
+  pattern: 'FILE_READ_ATTRIBUTES'
+  extensions: [".txt", ".log"]
+  description: "Allows reading file attributes (timestamps, flags). Useful for reconnaissance and timestomping detection evasion."
+
+- id: WIN-FILE-006
+  name: "FILE_WRITE_ATTRIBUTES"
+  severity: "MEDIUM"
+  pattern: 'FILE_WRITE_ATTRIBUTES'
+  extensions: [".txt", ".log"]
+  description: "Allows modifying file attributes. Can be abused to alter timestamps and hide attacker activity."
+
+- id: WIN-FILE-007
+  name: "FILE_READ_EA"
+  severity: "LOW"
+  pattern: 'FILE_READ_EA'
+  extensions: [".txt", ".log"]
+  description: "Allows reading extended attributes. May expose hidden metadata or sensitive configuration."
+
+- id: WIN-FILE-008
+  name: "FILE_WRITE_EA"
+  severity: "MEDIUM"
+  pattern: 'FILE_WRITE_EA'
+  extensions: [".txt", ".log"]
+  description: "Allows writing extended attributes. Can be abused to implant malicious metadata or persistence mechanisms."
+
+- id: WIN-FILE-009
+  name: "FILE_DELETE_CHILD"
+  severity: "HIGH"
+  pattern: 'FILE_DELETE_CHILD'
+  extensions: [".txt", ".log"]
+  description: "Allows deleting files within a directory. Can be abused to remove evidence or sabotage system files."
+
+- id: WIN-FILE-010
+  name: "FILE_TRAVERSE"
+  severity: "MEDIUM"
+  pattern: 'FILE_TRAVERSE'
+  extensions: [".txt", ".log"]
+  description: "Allows traversing directories without listing contents. Can be abused for stealthy lateral movement."
+
+- id: WIN-FILE-011
+  name: "FILE_GENERIC_READ"
+  severity: "HIGH"
+  pattern: 'FILE_GENERIC_READ'
+  extensions: [".txt", ".log"]
+  description: "Grants combined read permissions (READ_DATA, READ_ATTRIBUTES, READ_EA). Broad access can expose sensitive files."
+
+- id: WIN-FILE-012
+  name: "FILE_GENERIC_WRITE"
+  severity: "CRITICAL"
+  pattern: 'FILE_GENERIC_WRITE'
+  extensions: [".txt", ".log"]
+  description: "Grants combined write permissions (WRITE_DATA, WRITE_ATTRIBUTES, WRITE_EA, APPEND_DATA). Dangerous for privilege escalation."
+
+- id: WIN-FILE-013
+  name: "FILE_GENERIC_EXECUTE"
+  severity: "CRITICAL"
+  pattern: 'FILE_GENERIC_EXECUTE'
+  extensions: [".txt", ".log"]
+  description: "Grants combined execute permissions (EXECUTE, TRAVERSE). Can be abused to run malicious binaries."
+
+- id: WIN-FILE-014
+  name: "FILE_ALL_ACCESS"
+  severity: "CRITICAL"
+  pattern: 'FILE_ALL_ACCESS'
+  extensions: [".txt", ".log"]
+  description: "Grants full control over a file or pipe. Extremely dangerous in named pipes, enabling interception, injection, and privilege escalation."
+ 

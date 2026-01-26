@@ -1,0 +1,23 @@
+- id: NODE-001
+  name: "File System: fs.readFile()"
+  severity: "MEDIUM"
+  pattern: "fs\\.readFile\\s*\\("
+  extensions: [".js", ".ts"]
+  description: "Reads file content. If the path is user-controlled, it leads to Local File Inclusion (LFI)."
+  reference: "https://nodejs.org/api/fs.html#fsreadfilepath-options-callback"
+
+- id: NODE-002
+  name: "Command Execution: child_process.spawn()"
+  severity: "HIGH"
+  pattern: "child_process\\.spawn\\s*\\("
+  extensions: [".js", ".ts"]
+  description: "Spawns a new process. Dangerous if arguments are not properly sanitized."
+  reference: "https://nodejs.org/api/child_process.html#child_processspawncommand-args-options"
+
+- id: NODE-003
+  name: "Insecure Code Loading: require(dynamic)"
+  severity: "CRITICAL"
+  pattern: "require\\s*\\(\\s*[^'\"]+\\s*\\)"
+  extensions: [".js", ".ts"]
+  description: "Dynamic require calls can allow an attacker to load arbitrary modules or files."
+  reference: "https://nodejs.org/api/modules.html#requireid"

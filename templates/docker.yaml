@@ -1,0 +1,42 @@
+- id: DOCK-001
+  name: "Privileged Container"
+  severity: "CRITICAL"
+  pattern: 'privileged:\s*true'
+  extensions: [".yml", ".yaml"]
+  description: "A privileged container has root access to the host machine. It's the easiest path for a container breakout."
+  reference: "https://book.hacktricks.xyz/linux-hardening/privilege-escalation/docker-breakout/privileged-container"
+
+- id: DOCK-002
+  name: "Exposed Docker Socket"
+  severity: "CRITICAL"
+  pattern: '\/var\/run\/docker\.sock'
+  extensions: [".yml", ".yaml", ".sh"]
+  description: "Mounting the docker socket allows a container to control the entire Docker daemon, leading to host takeover."
+
+- id: DOCK-003
+  name: "Hardcoded Secrets in ENV"
+  severity: "HIGH"
+  pattern: '(PASSWORD|SECRET|KEY|TOKEN|AUTH|PWD)\s*[:=]\s*[^\s]+'
+  extensions: ["Dockerfile", ".yml", ".yaml"]
+  description: "Hardcoding passwords or tokens in ENV variables makes them visible to anyone with 'docker inspect'."
+
+- id: DOCK-004
+  name: "Root User Execution"
+  severity: "MEDIUM"
+  pattern: '^USER\s+root'
+  extensions: ["Dockerfile"]
+  description: "Running the container as root is a security risk. Best practice is to use a non-privileged user."
+
+- id: DOCK-005
+  name: "SSH Server Inside Container"
+  severity: "MEDIUM"
+  pattern: 'apt-get install.*openssh-server'
+  extensions: ["Dockerfile"]
+  description: "Installing SSH inside a container increases the attack surface and is generally considered a bad practice."
+
+- id: DOCK-006
+  name: "Insecure Capability: SYS_ADMIN"
+  severity: "HIGH"
+  pattern: 'cap_add:.*SYS_ADMIN'
+  extensions: [".yml", ".yaml"]
+  description: "The SYS_ADMIN capability is almost equivalent to being root on the host. Highly dangerous."

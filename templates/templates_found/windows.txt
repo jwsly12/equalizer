@@ -1,0 +1,34 @@
+ID,Privilege Name,Severity,Attack Vector / Impact
+WIN-PRIV-001,SeImpersonatePrivilege,CRITICAL,Potato Attacks (Juicy/God/Print) to SYSTEM.
+WIN-PRIV-002,SeDebugPrivilege,CRITICAL,LSASS Memory Dump / Process Injection.
+WIN-PRIV-003,SeBackupPrivilege,CRITICAL,"Read ANY file (SAM, NTDS.dit) bypassing ACLs."
+WIN-PRIV-004,SeRestorePrivilege,CRITICAL,Write ANY file (Binary replacement) bypassing ACLs.
+WIN-PRIV-005,SeTakeOwnershipPrivilege,HIGH,Take control of objects to modify permissions.
+WIN-PRIV-006,SeLoadDriverPrivilege,HIGH,Load malicious drivers / Disable EDR.
+WIN-PRIV-007,SeTcbPrivilege,CRITICAL,Act as part of the Operating System (Highest).
+WIN-PRIV-008,SeAssignPrimaryToken,HIGH,Process spoofing / Lateral movement.
+WIN-PRIV-009,SeCreateTokenPrivilege,CRITICAL,Create arbitrary administrative tokens.
+WIN-PRIV-010,SeManageVolumePrivilege,MEDIUM,Raw disk access / Denial of Service.
+WIN-PRIV-011,SeRelabelPrivilege,MEDIUM,Bypass Windows Integrity level protections.
+WIN-PRIV-012,SeMachineAccountPrivilege,MEDIUM,AD Computer Account creation (AD Delegation).
+WIN-PRIV-013,SeCreateGlobalPrivilege,MEDIUM,Local service relay attacks (Global namespace).
+WIN-PRIV-014,SeSecurityPrivilege,HIGH,Manage Security Logs / Clear audit trails.
+WIN-PRIV-015,SeEnableDelegation,HIGH,Set accounts as Trusted for Delegation (AD).
+WIN-PRIV-016,SeSyncAgentPrivilege,MEDIUM,AD Replication / Directory Sync access.
+WIN-PRIV-017,SeTrustedCredManAccess,LOW,Extract stored credentials from Credential Manager.
+WIN-PRIV-018,SeSystemEnvironment,HIGH,Modify firmware/EFI variables / Secure Boot.
+WIN-FILE-001,FILE_READ_DATA,HIGH,Read data from file/pipe (intercept sensitive info).
+WIN-FILE-002,FILE_WRITE_DATA,CRITICAL,Write data to file/pipe (inject malicious commands).
+WIN-FILE-003,FILE_APPEND_DATA,MEDIUM,Append data to logs/streams (tamper logs or hide payloads).
+WIN-FILE-004,FILE_EXECUTE,CRITICAL,Execute files (run arbitrary binaries/scripts).
+WIN-FILE-005,FILE_READ_ATTRIBUTES,LOW,Read file attributes (timestamps, reconnaissance).
+WIN-FILE-006,FILE_WRITE_ATTRIBUTES,MEDIUM,Modify file attributes (timestomping / hide activity).
+WIN-FILE-007,FILE_READ_EA,LOW,Read extended attributes (expose hidden metadata).
+WIN-FILE-008,FILE_WRITE_EA,MEDIUM,Write extended attributes (implant malicious metadata).
+WIN-FILE-009,FILE_DELETE_CHILD,HIGH,Delete files in directories (remove evidence / sabotage).
+WIN-FILE-010,FILE_TRAVERSE,MEDIUM,Traverse directories silently (stealthy lateral movement).
+WIN-FILE-011,FILE_GENERIC_READ,HIGH,Combined read permissions (expose sensitive files broadly).
+WIN-FILE-012,FILE_GENERIC_WRITE,CRITICAL,Combined write permissions (dangerous for privilege escalation).
+WIN-FILE-013,FILE_GENERIC_EXECUTE,CRITICAL,Combined execute permissions (run malicious binaries).
+WIN-FILE-014,FILE_ALL_ACCESS,CRITICAL,Full control over file/pipe (interception, injection, escalation).
+

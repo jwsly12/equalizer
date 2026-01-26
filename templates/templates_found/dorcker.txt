@@ -1,0 +1,7 @@
+ID,Nome / Vetor,Nível,Descrição Técnica
+DOCK-001,Privileged Mode,CRITICAL,O container pode acessar o hardware do host diretamente.
+DOCK-002,Docker Socket,CRITICAL,O container pode criar outros containers e ler o host.
+DOCK-003,Secrets in ENV,HIGH,Vazamento de credenciais em variáveis de ambiente.
+DOCK-004,Root User,MEDIUM,Falta de isolamento de privilégios dentro da imagem.
+DOCK-005,SSH Service,MEDIUM,Permite acesso remoto direto ao container (má prática).
+DOCK-006,Cap SYS_ADMIN,HIGH,Adiciona permissões administrativas do kernel ao container.

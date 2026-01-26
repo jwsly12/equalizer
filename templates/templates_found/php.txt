@@ -1,0 +1,32 @@
+ID,Função / Primitiva,Nível de Risco,Descrição Técnica
+PHP-001,eval(),CRITICAL,Execução direta de strings como código PHP.
+PHP-002,shell_exec(),HIGH,Executa comandos no shell e retorna a saída como string.
+PHP-003,system(),HIGH,Executa programas externos e exibe a saída.
+PHP-004,runkit7_function_add(),CRITICAL,Adiciona novas funções em tempo de execução.
+PHP-005,runkit7_function_redefine(),CRITICAL,Redefine funções existentes (ideal para bypass de segurança).
+PHP-006,assert(),CRITICAL,Avalia asserções (pode executar código em versões antigas).
+PHP-007,passthru(),HIGH,Executa comandos e passa a saída bruta ao navegador.
+PHP-008,create_function(),CRITICAL,Cria funções anônimas (usa eval internamente).
+PHP-009,unserialize(),CRITICAL,Desserialização de objetos (alvo para Object Injection).
+PHP-010,phpinfo(),MEDIUM,Vazamento de configurações sensíveis do servidor.
+PHP-011,move_uploaded_file(),HIGH,Upload de arquivos (vetor para Web Shells).
+PHP-012,call_user_func(_array),CRITICAL,Invoca callbacks diretamente (RCE direto).
+PHP-013,array_map/filter/reduce,HIGH,Callbacks para processamento de arrays.
+PHP-014,usort/uksort/uasort,HIGH,Callbacks para ordenação customizada.
+PHP-015,preg_replace_callback(),CRITICAL,Execução de código via Regex matches.
+PHP-016,set_error/exception_handler,HIGH,Manipulação do fluxo de erro/execução do runtime.
+PHP-017,sqlite_create_function,CRITICAL,Criação de funções PHP dentro do motor SQL.
+PHP-018	Backticks (``) (Novo)	HIGH
+PHP-019	popen / proc_open `(Novo)`	HIGH
+PHP-020	pcntl_exec `(Novo)`	CRITICAL
+PHP-021	exec `(Novo)`
+PHP-022	preg_replace /e (Novo)	CRITICAL
+PHP-023	Insecure Include/Require (Novo)	CRITICAL
+PHP-024	Variable Functions (Novo)	CRITICAL
+PHP-025	Reflection API (Novo)	HIGH
+PHP-026	Escrita/Exclusão de Arquivos	HIGH	file_put_contents, unlink, rename.
+PHP-027	Leitura de Arquivos	MEDIUM	file_get_contents, readfile, fopen.
+PHP-028	Reconhecimento de Path	LOW	file_exists, is_dir, glob.
+PHP-029	Image File Output	MEDIUM	imagepng, imagejpeg (Escrita via 2º param).
+PHP-030	FTP Transfer	HIGH	ftp_get, ftp_put.
+PHP-031	EXIF Leakage	LOW	exif_read_data, exif_thumbnail.

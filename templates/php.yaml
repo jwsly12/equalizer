@@ -1,0 +1,231 @@
+- id: PHP-001
+  name: "Code Execution: eval()"
+  severity: "CRITICAL"
+  pattern: 'eval\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "The eval() function evaluates a string as PHP code."
+  reference: "https://www.php.net/manual/en/function.eval.php"
+
+- id: PHP-002
+  name: "System Command Execution: shell_exec()"
+  severity: "HIGH"
+  pattern: 'shell_exec\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Executes command via shell."
+  reference: "https://www.php.net/manual/en/function.shell-exec.php"
+
+- id: PHP-003
+  name: "System Command Execution: system()"
+  severity: "HIGH"
+  pattern: 'system\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Executes an external program."
+  reference: "https://www.php.net/manual/en/function.system.php"
+
+- id: PHP-004
+  name: "Dangerous Function: runkit7_function_add"
+  severity: "CRITICAL"
+  pattern: 'runkit7_function_add\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Allows adding new functions at runtime. Can be used to inject backdoors."
+  reference: "https://github.com/runkit7/runkit7"
+
+- id: PHP-005
+  name: "Dangerous Function: runkit7_function_redefine"
+  severity: "CRITICAL"
+  pattern: 'runkit7_function_redefine\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Allows redefining existing functions. An attacker could replace a security check function with one that always returns true."
+  reference: "https://github.com/runkit7/runkit7"
+
+- id: PHP-006
+  name: "Dangerous Function: assert()"
+  severity: "CRITICAL"
+  pattern: 'assert\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "In older PHP versions, assert() can execute code if the string is user-controlled."
+  reference: "https://www.php.net/manual/en/function.assert.php"
+  
+- id: PHP-007
+  name: "System Command Execution: passthru()"
+  severity: "HIGH"
+  pattern: 'passthru\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Executes an external program and displays raw output. Dangerous if input is sanitized poorly."
+  reference: "https://www.php.net/manual/en/function.passthru.php"
+
+- id: PHP-008
+  name: "Dangerous Function: create_function()"
+  severity: "CRITICAL"
+  pattern: 'create_function\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Creates an anonymous function. Internally uses eval(), making it a major RCE vector."
+  reference: "https://www.php.net/manual/en/function.create-function.php"
+
+- id: PHP-009
+  name: "Insecure Deserialization: unserialize()"
+  severity: "CRITICAL"
+  pattern: 'unserialize\s*\('
+  extensions: [".php", ".phtml", ".php7", ".php8"]
+  description: "Deserializing user-controlled input can lead to PHP Object Injection and RCE."
+  reference: "https://cheatsheetseries.owasp.org/cheatsheets/PHP_Object_Injection_Cheat_Sheet.html"
+
+- id: PHP-010
+  name: "Information Exposure: phpinfo()"
+  severity: "MEDIUM"
+  pattern: 'phpinfo\s*\(\)'
+  extensions: [".php", ".phtml", ".txt"]
+  description: "Exposes server configuration, loaded modules, and environment variables."
+  reference: "https://www.php.net/manual/en/function.phpinfo.php"
+
+- id: PHP-011
+  name: "File Manipulation: move_uploaded_file()"
+  severity: "HIGH"
+  pattern: 'move_uploaded_file\s*\('
+  extensions: [".php", ".phtml"]
+  description: "If the destination path or extension isn't validated, it allows arbitrary file upload (Web Shells)."
+  reference: "https://www.php.net/manual/en/function.move-uploaded-file.php"
+
+- id: PHP-012
+  name: "Callback Injection: call_user_func family"
+  severity: "CRITICAL"
+  pattern: '(call_user_func|call_user_func_array)\s*\('
+  extensions: [".php", ".phtml"]
+  description: "Directly calls a function passed as an argument. High risk of RCE if the first argument is user-controlled."
+
+- id: PHP-013
+  name: "Callback Injection: array_map/filter/reduce"
+  severity: "HIGH"
+  pattern: '(array_map|array_filter|array_reduce)\s*\('
+  extensions: [".php"]
+  description: "These functions accept callbacks to process arrays. Control over the callback name leads to code execution."
+
+- id: PHP-014
+  name: "Callback Injection: Sorting Functions (usort/uasort/uksort)"
+  severity: "HIGH"
+  pattern: '(usort|uasort|uksort|array_udiff|array_uintersect)\s*\('
+  extensions: [".php"]
+  description: "Custom sorting/comparison functions that execute callbacks. Often overlooked as an RCE vector."
+
+- id: PHP-015
+  name: "Callback Injection: PCRE (preg_replace_callback)"
+  severity: "CRITICAL"
+  pattern: 'preg_replace_callback\s*\('
+  extensions: [".php"]
+  description: "Executes a callback for every Regex match. Extremely powerful for bypassing filters."
+
+- id: PHP-016
+  name: "Runtime Handler: Error/Exception/Shutdown"
+  severity: "HIGH"
+  pattern: '(set_error_handler|set_exception_handler|register_shutdown_function)\s*\('
+  extensions: [".php"]
+  description: "Registers a function to be executed on specific events. Can be used to maintain persistence in the execution flow."
+
+- id: PHP-017
+  name: "Database Callback: sqlite_create_function"
+  severity: "CRITICAL"
+  pattern: 'sqlite_create_(function|aggregate)\s*\('
+  extensions: [".php"]
+  description: "Registers a PHP function as a user-defined function (UDF) for SQLite. Can be abused via SQL Injection to trigger RCE."
+
+- id: PHP-018
+  name: "Execution Operator: Backticks (``)"
+  severity: "HIGH"
+  pattern: '`[^`$]*\$[^`]*`'
+  extensions: [".php"]
+  description: "The execution operator (backticks) executes the shell command. If it contains variables ($), it's a direct RCE vector."
+  reference: "https://www.php.net/manual/en/language.operators.execution.php"
+
+- id: PHP-019
+  name: "Process Execution: popen() / proc_open()"
+  severity: "HIGH"
+  pattern: '(popen|proc_open)\s*\('
+  extensions: [".php"]
+  description: "Opens a pipe to a process. Can be used to execute commands and interact with them via STDIN/STDOUT."
+  reference: "https://www.php.net/manual/en/function.proc-open.php"
+
+- id: PHP-020
+  name: "Process Control: pcntl_exec()"
+  severity: "CRITICAL"
+  pattern: 'pcntl_exec\s*\('
+  extensions: [".php"]
+  description: "Executes the specified program in the current process space. Common in exploits to replace the current process."
+  reference: "https://www.php.net/manual/en/function.pcntl-exec.php"
+
+- id: PHP-021
+  name: "System Command Execution: exec()"
+  severity: "HIGH"
+  pattern: 'exec\s*\('
+  extensions: [".php", ".phtml"]
+  description: "Executes an external program and returns the last line of output."
+  reference: "https://www.php.net/manual/en/function.exec.php"
+
+- id: PHP-022
+  name: "Dangerous Regex: preg_replace /e modifier"
+  severity: "CRITICAL"
+  pattern: 'preg_replace\s*\(\s*["''].*\/[^''"]*e[^''"]*["'']\s*,'
+  extensions: [".php", ".phtml"]
+  description: "The /e modifier (eval) executes the replacement string as PHP code."
+
+- id: PHP-023
+  name: "Insecure File Inclusion: include/require"
+  severity: "CRITICAL"
+  pattern: '(include|require)(_once)?\s*\(?\s*\$_(GET|POST|REQUEST|COOKIE|FILES)'
+  extensions: [".php"]
+  description: "Directly including files from user input leads to Local/Remote File Inclusion (LFI/RFI)."
+
+- id: PHP-024
+  name: "Dynamic Function Call: Variable Function"
+  severity: "CRITICAL"
+  pattern: '\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]\s*\('
+  extensions: [".php"]
+  description: "Executing a function where the name is provided by the user. Direct RCE vector."
+
+- id: PHP-025
+  name: "Reflection API Abuse: ReflectionFunction"
+  severity: "HIGH"
+  pattern: 'ReflectionFunction|invokeArgs|invoke\('
+  extensions: [".php"]
+  description: "Using Reflection to execute functions dynamically can bypass security scanners."
+
+- id: PHP-026
+  name: "Arbitrary File Write / Delete"
+  severity: "HIGH"
+  pattern: '(file_put_contents|fwrite|unlink|rmdir|mkdir|rename|copy)\s*\('
+  extensions: [".php"]
+  description: "Functions that modify the filesystem. If the path is user-controlled, it can lead to web shell creation or data destruction."
+
+- id: PHP-027
+  name: "Arbitrary File Read (Sensitive Data)"
+  severity: "MEDIUM"
+  pattern: '(file_get_contents|readfile|file|highlight_file|show_source|fopen|parse_ini_file)\s*\('
+  extensions: [".php"]
+  description: "Functions that read file content. Risk of Path Traversal and leakage of source code or system secrets."
+
+- id: PHP-028
+  name: "Filesystem Metadata / Discovery"
+  severity: "LOW"
+  pattern: '(filse_exists|is_dir|is_file|glob|stat|pathinfo|realpath)\s*\('
+  extensions: [".php"]
+  description: "Checks file existence or properties. Used by attackers for reconnaissance and to verify Path Traversal success."
+
+- id: PHP-029
+  name: "Image Processing File Write"
+  severity: "MEDIUM"
+  pattern: '(imagepng|imagejpeg|imagegif|imagewbmp|imagegd2?)\s*\(.*,.*\)'
+  extensions: [".php"]
+  description: "Image output functions where the 2nd parameter is a path. Can be abused to save malicious files with image extensions."
+
+- id: PHP-030
+  name: "FTP / Network File Transfer"
+  severity: "HIGH"
+  pattern: 'ftp_(get|put|nb_get|nb_put)\s*\('
+  extensions: [".php"]
+  description: "File transfer via FTP. Can be used for data exfiltration or downloading remote payloads."
+
+- id: PHP-031
+  name: "Information Leakage: EXIF Data"
+  severity: "LOW"
+  pattern: '(exif_read_data|read_exif_data|exif_thumbnail)\s*\('
+  extensions: [".php"]
+  description: "Reads metadata from images. Can leak GPS coordinates or camera info, and sometimes triggers vulnerabilities in the EXIF parser."

@@ -1,0 +1,173 @@
+# EQUALIZER v1 - Active Directory Enumeration & Security Template
+# Focus: Post-Enumeration Analysis (TXT/LOG files)
+
+- id: AD-ENUM-001
+  name: "Dangerous Privilege: GenericAll"
+  severity: "CRITICAL"
+  pattern: 'GenericAll'
+  extensions: [".txt", ".log"]
+  description: "User has complete control over the object. Can change passwords, modify attributes, or take full ownership."
+  reference: "https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-permissions"
+
+- id: AD-ENUM-002
+  name: "Dangerous Privilege: Full Control"
+  severity: "CRITICAL"
+  pattern: 'FullControl'
+  extensions: [".txt", ".log"]
+  description: "Absolute power detected over the target object. Equivalent to being the owner with all rights."
+  reference: "https://learn.microsoft.com/en-us/windows/win32/ad/access-rights-and-access-masks"
+
+- id: AD-ENUM-003
+  name: "Dangerous Privilege: AllExtendedRights"
+  severity: "CRITICAL"
+  pattern: 'AllExtendedRights'
+  extensions: [".txt", ".log"]
+  description: "Permission to perform all extended operations, such as 'Force Change Password' without knowing the old one."
+  reference: "https://adsecurity.org/?p=3658"
+
+- id: AD-ENUM-004
+  name: "DCSync Capability: GetChangesAll"
+  severity: "CRITICAL"
+  pattern: 'DS-Replication-Get-Changes-All'
+  extensions: [".txt", ".log"]
+  description: "Crucial for DCSync attacks. Allows a user to request all directory data updates from the Domain Controller."
+  reference: "https://attack.mitre.org/techniques/T1003/006/"
+
+- id: AD-ENUM-005
+  name: "DCSync Capability: GetChanges"
+  severity: "CRITICAL"
+  pattern: 'DS-Replication-Get-Changes\b'
+  extensions: [".txt", ".log"]
+  description: "Required for replication. Combined with GetChangesAll, it allows dumping domain hashes (DCSync)."
+  reference: "https://adsecurity.org/?p=1729"
+
+- id: AD-ENUM-006
+  name: "Vulnerability: AS-REP Roasting (Pre-Auth Not Required)"
+  severity: "HIGH"
+  pattern: '(DONT_REQ_PREAUTH|UF_DONT_REQUIRE_PREAUTH)'
+  extensions: [".txt", ".log"]
+  description: "User account does not require Kerberos pre-authentication. Attackers can request a ticket and crack it offline."
+  reference: "https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/as-reproasting"
+
+- id: AD-ENUM-007
+  name: "Risk: Unconstrained Delegation"
+  severity: "HIGH"
+  pattern: 'TRUSTED_FOR_DELEGATION'
+  extensions: [".txt", ".log"]
+  description: "This computer/user can impersonate any user who authenticates to it. High risk for privilege escalation."
+  reference: "https://www.harmj0y.net/blog/activedirectory/the-curious-case-of-unconstrained-delegation/"
+
+- id: AD-ENUM-008
+  name: "Sensitive Command: Domain Admin Enumeration"
+  severity: "MEDIUM"
+  pattern: 'net\s+group\s+"Domain\s+Admins"\s+/domain'
+  extensions: [".txt"]
+  description: "Standard reconnaissance command used to identify high-privilege users in the domain."
+  
+- id: AD-ENUM-009
+  name: "Dangerous Privilege: WriteDacl"
+  severity: "CRITICAL"
+  pattern: 'WriteDacl'
+  extensions: [".txt", ".log"]
+  description: "Allows the attacker to modify the object's permissions. They can grant themselves 'GenericAll' and take over the account."
+  reference: "https://www.specterops.io/blog/2017/6/16/bloodhound-1-3-the-acl-update"
+
+- id: AD-ENUM-010
+  name: "Dangerous Privilege: WriteOwner"
+  severity: "CRITICAL"
+  pattern: 'WriteOwner'
+  extensions: [".txt", ".log"]
+  description: "Allows the attacker to take ownership of the object. Once they are the owner, they can modify any permission."
+  reference: "https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/acl-persistence-and-abuse"
+
+- id: AD-ENUM-011
+  name: "Risk: Constrained Delegation (S4U2Self)"
+  severity: "HIGH"
+  pattern: 'msDS-AllowedToDelegateTo'
+  extensions: [".txt", ".log"]
+  description: "Specific services can be impersonated. Can lead to silver ticket attacks if not properly configured."
+  reference: "https://adsecurity.org/?p=2011"
+
+- id: AD-ENUM-012
+  name: "Vulnerability: Kerberoasting (SPN Found)"
+  severity: "MEDIUM"
+  pattern: 'ServicePrincipalName\s*:\s*[^\s]+/[^\s]+'
+  extensions: [".txt", ".log"]
+  description: "User account has a Service Principal Name (SPN). It might be vulnerable to Kerberoasting (offline password cracking)."
+  reference: "https://www.scip.ch/en/?report.20180830"  
+
+- id: AD-ENUM-013
+  name: "Dangerous Privilege: Self-Membership"
+  severity: "HIGH"
+  pattern: 'AddSelf|Self'
+  extensions: [".txt", ".log"]
+  description: "The user has permission to add themselves to a group. If this is a privileged group, it leads to instant escalation."
+  reference: "https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/acl-persistence-and-abuse#self"
+
+- id: AD-ENUM-014
+  name: "Dangerous Privilege: GenericWrite"
+  severity: "HIGH"
+  pattern: 'GenericWrite'
+  extensions: [".txt", ".log"]
+  description: "Ability to update any non-protected attribute. Can be used to change login scripts or service paths."
+  reference: "https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-permissions"
+
+- id: AD-ENUM-015
+  name: "Dangerous Privilege: WriteProperty (Sensitive)"
+  severity: "MEDIUM"
+  pattern: 'WriteProperty'
+  extensions: [".txt", ".log"]
+  description: "Allows writing to specific properties. Can be used for targeted attacks like modifying 'member' or 'scriptPath'."
+  reference: "https://learn.microsoft.com/en-us/windows/win32/adschema/a-writeproperty"
+
+- id: AD-ENUM-016
+  name: "DCSync Capability: GetChangesInFilter"
+  severity: "HIGH"
+  pattern: 'DS-Replication-Get-Changes-In-Filter'
+  extensions: [".txt", ".log"]
+  description: "Used for partial replication. In specific scenarios, can be abused to retrieve sensitive domain data."
+  reference: "https://adsecurity.org/?p=1729"
+
+- id: AD-ENUM-017
+  name: "Shadow Credentials: msDS-KeyCredentialLink"
+  severity: "CRITICAL"
+  pattern: 'ms-?DS-?Key-?Credential-?Link'
+  extensions: [".txt", ".log"]
+  description: "Persistence/Escalation technique. If an attacker can write to this attribute, they can impersonate the object without knowing the password."
+  reference: "https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-privilege-escalation-88a1a3a452cb"
+
+- id: AD-ENUM-018
+  name: "AD CS Insecure Certificate Template (ESC1)"
+  severity: "CRITICAL"
+  pattern: '(msPKI-Certificate-Name-Flag:.*ENROLLEE_SUPPLIES_SUBJECT|mspki-enrollment-flag:.*AUTO_ENROLLMENT)'
+  extensions: [".txt", ".log", ".json", ".xml"]
+  description: "Templates that allow users to supply a Subject Alternative Name (SAN), leading to full domain takeover."
+
+- id: AD-ENUM-019
+  name: "GPO Write/Edit Permissions"
+  severity: "HIGH"
+  pattern: '(GPO-Edit-Content|Write-GPLink|New-GPO)'
+  extensions: [".txt", ".log", ".csv"]
+  description: "User has rights to modify Group Policy Objects. Can be used to push malicious scripts to all workstations."
+
+- id: AD-ENUM-020
+  name: "Resource-Based Constrained Delegation (RBCD)"
+  severity: "HIGH"
+  pattern: 'ms-?DS-?Allowed-?To-?Act-?On-?Behalf-?Of-?Other-?Identity'
+  extensions: [".txt", ".log", ".json"]
+  description: "Allows a computer object to be compromised by any account with WriteProperty over it."
+
+- id: AD-ENUM-021
+  name: "Dangerous PrimaryGroupID"
+  severity: "MEDIUM"
+  pattern: 'primaryGroupID:\s*(512|519|520)'
+  extensions: [".txt", ".log"]
+  description: "A user whose primary group is set to Domain Admins, Enterprise Admins, or Schema Admins."
+
+- id: AD-ENUM-022
+  name: "LAPS Password in Cleartext"
+  severity: "CRITICAL"
+  pattern: '(ms-Mcs-AdmPwd|ms-LAPS-Password)'
+  extensions: [".txt", ".log", ".xml"]
+  description: "Local Administrator Password Solution (LAPS) passwords found in cleartext logs."
+

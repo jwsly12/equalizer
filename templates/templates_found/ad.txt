@@ -1,0 +1,20 @@
+ID,Nome,Severidade
+AD-ENUM-001/002,GenericAll / FullControl,CRITICAL
+AD-ENUM-003,AllExtendedRights,CRITICAL
+AD-ENUM-004/005,GetChangesAll / GetChanges,CRITICAL
+AD-ENUM-006,AS-REP Roasting,HIGH
+AD-ENUM-007,Unconstrained Delegation,HIGH
+AD-ENUM-008,Domain Admin Recon,MEDIUM
+AD-ENUM-009/010,WriteDacl / WriteOwner,CRITICAL
+AD-ENUM-011/012,Constrained Delegation / Kerberoasting,HIGH/MED
+AD-ENUM-013,Self-Membership (Novo),HIGH
+AD-ENUM-014,GenericWrite (Novo),HIGH
+AD-ENUM-015,WriteProperty (Novo),MEDIUM
+AD-ENUM-016,GetChangesInFilter (Novo),HIGH
+AD-ENUM-017,Shadow Credentials (Novo),CRITICAL
+AD-ENUM-018	AD CS ESC1 (SAN)	CRITICAL	Templates de certificados que permitem personificar Administradores.
+AD-ENUM-019	GPO Edit Rights	HIGH	Permissão para injetar scripts ou políticas em toda a rede.
+AD-ENUM-020	RBCD	HIGH	Resource-Based Constrained Delegation (controle via atributos).
+AD-ENUM-021	PrimaryGroupID	MEDIUM	Usuários "escondidos" no grupo Domain Admins via ID primário.
+AD-ENUM-022	LAPS Password Leak	CRITICAL	Senhas de Admin Local expostas em atributos de texto claro.
+
