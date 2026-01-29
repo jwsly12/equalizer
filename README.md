@@ -1,7 +1,3 @@
-Sure thing! Here is the **EQUALIZER** README translated and polished in English, keeping that "hacker tool" aesthetic.
-
----
-
 # 🛡️ EQUALIZER v2
 
 **Security Object Scanner** — A specialized Python tool designed to hunt for dangerous primitives, exposed secrets, and security misconfigurations across files and directories.
